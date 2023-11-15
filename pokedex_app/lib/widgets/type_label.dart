@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_app/utils/utils.dart';
 
 class TypeLabel extends StatelessWidget {
   final String type;
@@ -13,7 +14,7 @@ class TypeLabel extends StatelessWidget {
         border: Border.all()
       ),
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Text(type),
+      child: Text(capitalize(type), style: const TextStyle(fontSize: 9)),
     );
   }
 

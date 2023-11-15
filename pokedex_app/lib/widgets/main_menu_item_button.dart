@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_app/models/menu_item.dart';
+import 'package:pokedex_app/provider/pokedex_provider.dart';
 import 'package:pokedex_app/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class MainMenuItemButton extends StatelessWidget {
@@ -8,10 +10,12 @@ class MainMenuItemButton extends StatelessWidget {
 
   MainMenuItemButton({super.key, required this.menuItem});
 
-  void navigateToScreen(BuildContext context, int index) {
+  void navigateToScreen(
+      BuildContext context, int index, PokedexProvider pokedexProvider) {
     switch (index) {
       case 0:
-        // Navegar a la pantalla de Pokedex
+        //  Realizar petición GET
+        pokedexProvider.fetchPokemons();
         Navigator.pushNamed(context, pokedexScreen);
         break;
       case 1:
@@ -41,8 +45,13 @@ class MainMenuItemButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //  Obtener el provider de pokemon
+    final pokedexProvider = Provider.of<PokedexProvider>(context);
     return InkWell(
-      onTap: () => navigateToScreen(context, menuItem.index),
+      onTap: () {
+        //  Navegar a la pantalla de Pokedex
+        navigateToScreen(context, menuItem.index, pokedexProvider);
+      },
       child: Container(
         height: 64,
         decoration: BoxDecoration(

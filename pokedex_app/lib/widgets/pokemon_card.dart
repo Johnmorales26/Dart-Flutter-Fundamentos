@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_app/models/pokemon_model.dart';
+import 'package:pokedex_app/utils/utils.dart';
 import 'package:pokedex_app/widgets/widgets.dart';
 
 class PokemonCard extends StatelessWidget {
-  PokemonCard({Key? key}) : super(key: key);
+  const PokemonCard({Key? key, required this.pokemonModel}) : super(key: key);
 
-  final List<String> types = ['Grass', 'Poison'];
+  final PokemonModel pokemonModel;
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +39,19 @@ class PokemonCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Bulbasaur',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+        Text(
+          capitalize(pokemonModel.name),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
         ),
         SizedBox(
           height: 120,
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: types.length,
+            itemCount: pokemonModel.types.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
-                  TypeLabel(type: types[index]),
+                  TypeLabel(type: pokemonModel.types[index].type.name),
                   const SizedBox(height: 8),
                 ],
               );
@@ -66,15 +68,15 @@ class PokemonCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          '#001',
+          formatNumberWithHash(pokemonModel.id),
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: 12,
             color: Colors.black.withAlpha(128),
           ),
         ),
         Image.network(
-          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
+          pokemonModel.sprites.other.officialArtwork.frontDefault,
           width: 80,
           height: 80,
         ),

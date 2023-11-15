@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex_app/provider/pokemon_provider.dart';
+import 'package:pokedex_app/provider/pokedex_provider.dart';
 import 'package:pokedex_app/theme/app_typography.dart';
 import 'package:pokedex_app/utils/constants.dart';
 import 'package:pokedex_app/utils/routes.dart';
@@ -12,7 +12,7 @@ class PokedexApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [ChangeNotifierProvider(create: (_) => PokemonProvider())],
+        providers: [ChangeNotifierProvider(create: (_) => PokedexProvider())],
         child: MaterialApp(
             title: 'Pokedex App',
             debugShowCheckedModeBanner: false,
