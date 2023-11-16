@@ -5,6 +5,7 @@ import 'package:pokedex_app/models/pokemon_model.dart';
 
 class PokedexProvider extends ChangeNotifier {
   List<PokemonModel> pokemons = [];
+  PokemonModel? pokemonSelected;
   int _startValue = 1;
   int _endValue = 50;
   final int _increment = 50;
@@ -41,5 +42,14 @@ class PokedexProvider extends ChangeNotifier {
     _startValue += _increment;
     _endValue += _increment;
     await _fetchAndAddPokemons(_startValue, _endValue);
+  }
+
+  selectPokemon(PokemonModel pokemon) {
+    pokemonSelected = pokemon;
+  }
+
+  PokemonModel searchPokemonById(int idPokemon) {
+    var pokemon = pokemons.firstWhere((pokemon) => pokemon.id == idPokemon);
+    return pokemon;
   }
 }
