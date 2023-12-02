@@ -51,7 +51,7 @@ class _ContentState extends State<_Content> {
   final TextEditingController longitudeController =
       TextEditingController(text: UserPreferences.longitude.toString());
   final FocusNode longitudeFocusNode = FocusNode();
-  File? galleryFile;
+  dynamic galleryFile = UserPreferences.photoPath;
 
   _collectData(BuildContext context) {
     if (nameController.text.isNotEmpty ||
@@ -111,21 +111,13 @@ class _ContentState extends State<_Content> {
             Stack(
               children: [
                 ClipOval(
-                    child: galleryFile == null
-                        ? Center(
-                            child: Image.asset(
-                      'assets/images/ic_user.png',
-                            width: 200,
-                            height: 200,
-                            fit: BoxFit.fill,
-                          ))
-                        : Center(
-                            child: Image.file(
-                            galleryFile!,
-                            width: 200,
-                            height: 200,
-                            fit: BoxFit.fill,
-                          ))),
+                  child: Center(
+                      child: galleryFile is String
+                          ? Image.asset(galleryFile,
+                              width: 200, height: 200, fit: BoxFit.fill)
+                          : Image.file(File(galleryFile!),
+                              width: 200, height: 200, fit: BoxFit.fill)),
+                ),
                 Positioned(
                   right: 0,
                   bottom: 0,

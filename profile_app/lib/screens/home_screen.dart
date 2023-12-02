@@ -39,23 +39,25 @@ class HomeScreen extends StatelessWidget {
         Offset.zero & overlay.size,
       ),
       items: [
-        const PopupMenuItem(
-          value: 1,
-          child: Text('Editar datos del usuario'),
-        ),
-        const PopupMenuItem(
-          value: 2,
-          child: Text('Configuración'),
-        ),
-      ],
-    ).then((value) {
-      // Manejar la opción seleccionada
-      if (value == 1) {
-        Navigator.pushNamed(context, EDIT_SCREEN);
-      } else if (value == 2) {
-        Navigator.pushNamed(context, SETTINGS_SCREEN);
-      }
-    });
+          //  Opción 1: Editar datos del usuario
+          const PopupMenuItem(
+              value: 1, child: Text('Editar datos del usuario')),
+          //  Opción 2: Mostrar mensaje al usuario
+          const PopupMenuItem(value: 2, child: Text('Mostrando mensaje')),
+          const PopupMenuItem(
+              value: 3, child: Text('Eliminar datos del usuario'))
+        ]).then((value) => {
+          //  Manejar la opción seleccionada después de cerrar el menú
+          if (value == 1)
+            {
+              //  Navegar a la pantalla de edición si se selecciona la opción 1
+              Navigator.pushNamed(context, EDIT_SCREEN)
+            }
+          else if (value == 2)
+            {print('Mostrando mensaje en consola')}
+          else
+            {UserPreferences.removeValues()}
+        });
   }
 }
 
@@ -71,7 +73,7 @@ class _ContentState extends State<_Content> {
   final String phoneState = UserPreferences.phone;
   final double latitudeState = UserPreferences.latitude;
   final double longitudeState = UserPreferences.longitude;
-  final File galleryFile = File(UserPreferences.photoPath);
+  final dynamic galleryFile = UserPreferences.photoPath;
 
   @override
   Widget build(BuildContext context) {
@@ -83,21 +85,13 @@ class _ContentState extends State<_Content> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipOval(
-              child: UserPreferences.photoPath.isEmpty
-                  ? Center(
-                      child: Image.asset(
-                      'assets/images/ic_user.png',
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.fill,
-                    ))
-                  : Center(
-                      child: Image.file(
-                      galleryFile,
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.fill,
-                    ))),
+              child: Center(
+            child: galleryFile is String
+                ? Image.asset(galleryFile,
+                    width: 200, height: 200, fit: BoxFit.fill)
+                : Image.file(File(galleryFile),
+                    width: 200, height: 200, fit: BoxFit.fill),
+          )),
           ItemData(category: 'Nombre', value: nameState),
           InkWell(
             onTap: () => _openEmailApp(emailState),

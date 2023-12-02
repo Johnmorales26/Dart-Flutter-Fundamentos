@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:profile_app/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -5,11 +6,11 @@ class UserPreferences {
 
   static late SharedPreferences _preferences;
 
-  static String _name = "";
-  static String _email = "";
-  static String _webSite = "";
-  static String _phone = "";
-  static String _photoPath = "";
+  static String _name = 'Ingrese un nuevo nombre';
+  static String _email = 'Ingrese un nuevo email';
+  static String _website = 'Ingrese un nuevo website';
+  static String _phone = 'Ingrese un nuevo numero telefonico';
+  static dynamic _photoPath = 'assets/images/img_flutter.png';
   static double _latitude = 0.0;
   static double _longitude = 0.0;
 
@@ -36,11 +37,11 @@ class UserPreferences {
   }
 
   static String get webSite {
-    return _preferences.getString(KEY_WEB_SITE) ?? _webSite;
+    return _preferences.getString(KEY_WEB_SITE) ?? _website;
   }
 
   static set website(String website) {
-    _webSite = website;
+    _website = website;
     _preferences.setString(KEY_WEB_SITE, website);
   }
 
@@ -53,13 +54,17 @@ class UserPreferences {
     _preferences.setString(KEY_PHONE, phone);
   }
 
-  static String get photoPath {
-    return _preferences.getString(KEY_PHOTO_PATH) ?? _photoPath;
-  }
-
-  static set photoPath(String photoPath) {
+  static set photoPath(dynamic photoPath) {
     _photoPath = photoPath;
     _preferences.setString(KEY_PHOTO_PATH, photoPath);
+  }
+
+  static dynamic get photoPath {
+    var path = _preferences.getString(KEY_PHOTO_PATH);
+    if (path != null) {
+      return File(path);
+    }
+    return _photoPath;
   }
 
   static double get latitude {
@@ -78,6 +83,16 @@ class UserPreferences {
   static set longitude(double longitude) {
     _longitude = longitude;
     _preferences.setDouble(KEY_LONGITUDE, longitude);
+  }
+
+  static removeValues() async {
+    _preferences.remove(KEY_NAME);
+    _preferences.remove(KEY_EMAIL);
+    _preferences.remove(KEY_PHONE);
+    _preferences.remove(KEY_WEB_SITE);
+    _preferences.remove(KEY_PHOTO_PATH);
+    _preferences.remove(KEY_LATITUDE);
+    _preferences.remove(KEY_LONGITUDE);
   }
 
 }
