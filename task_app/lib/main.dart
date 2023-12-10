@@ -5,6 +5,7 @@ import 'package:task_app/providers/ui_provider.dart';
 import 'package:task_app/screens/screens.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
