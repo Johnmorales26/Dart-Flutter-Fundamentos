@@ -1,6 +1,6 @@
 enum DeviceType {
-  Smartphone,
-  Tablet,
-  LargeScreen,
-  ExtraLargeScreen,
+  smartphone, 
+  tablet,
+  largeScreen,
+  extraLargeScreen
 }

@@ -15,15 +15,50 @@ class HomeScreen extends StatelessWidget {
     //  Obtener el ptovider
     final uiProvider = Provider.of<UiProvider>(context);
     //  Obtener el tipo de dispositivo
-    var deviceType = getDeviceType(context);
-    if (deviceType == DeviceType.Smartphone ||
-        deviceType == DeviceType.Tablet) {
-      print('Entra en dispositivo mobile y tablete');
+    DeviceType deviceType = getDeviceType(context);
+    if (deviceType == DeviceType.smartphone ||
+        deviceType == DeviceType.tablet) {
       return _SizedSmallView(uiProvider: uiProvider);
     } else {
-      print('Entra en computadora y pantalla grande');
-      return _SizedLargeView(deviceType: deviceType);
+      return _SezedLargeView(deviceType: deviceType);
     }
+  }
+}
+
+class _SezedLargeView extends StatelessWidget {
+  final DeviceType deviceType;
+
+  const _SezedLargeView({required this.deviceType});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Task Minder', style: GoogleFonts.poppins()),
+        actions: [
+          FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TaskScreen()));
+              },
+              label: Text('New Task', style: GoogleFonts.poppins()),
+              icon: const Icon(Icons.add))
+        ],
+      ),
+      body: Row(
+        children: [
+          SizedBox(width: deviceType == DeviceType.largeScreen ? 32 : 64),
+          const Expanded(child: TodoScreen()),
+          SizedBox(width: deviceType == DeviceType.largeScreen ? 12 : 24),
+          const Expanded(child: InProgressScreen()),
+          SizedBox(width: deviceType == DeviceType.largeScreen ? 12 : 24),
+          const Expanded(child: DoneScreen()),
+          SizedBox(width: deviceType == DeviceType.largeScreen ? 32 : 64),
+        ],
+      ),
+    );
   }
 }
 
@@ -84,40 +119,5 @@ class _SizedSmallView extends StatelessWidget {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
         ));
-  }
-}
-
-class _SizedLargeView extends StatelessWidget {
-  final DeviceType deviceType;
-
-  const _SizedLargeView({required this.deviceType});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Task Minder', style: GoogleFonts.poppins()),
-        actions: [
-          FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const TaskScreen()));
-              },
-              label: Text('New Task', style: GoogleFonts.poppins()),
-              icon: const Icon(Icons.add))
-        ],
-      ),
-      body: Row(children: [
-        SizedBox(width: deviceType == DeviceType.LargeScreen ? 32 : 64),
-        const Expanded(child: TodoScreen()),
-        SizedBox(width: deviceType == DeviceType.LargeScreen ? 12 : 24),
-        const Expanded(child: InProgressScreen()),
-        SizedBox(width: deviceType == DeviceType.LargeScreen ? 12 : 24),
-        const Expanded(child: DoneScreen()),
-        SizedBox(width: deviceType == DeviceType.LargeScreen ? 32 : 64),
-      ]),
-    );
   }
 }
